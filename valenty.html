@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Question for You 💖</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #ffe6f0, #fff);
+      overflow: hidden;
+    }
+    .card {
+      width: min(520px, 92vw);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 20px;
+      padding: 26px 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    p { margin: 0 0 18px; opacity: 0.85; line-height: 1.5; }
+    .btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      height: 72px;
+      align-items: center;
+    }
+    button {
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+      user-select: none;
+    }
+    #yesBtn { background: #ff4d88; color: white; }
+    #yesBtn:hover { transform: translateY(-1px) scale(1.02); }
+    #noBtn {
+      background: #f3f4f6;
+      color: #111827;
+      position: absolute; /* เพื่อให้ย้ายตำแหน่งได้ */
+      left: 55%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .result {
+      margin-top: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      min-height: 1.4em;
+    }
+    .hint {
+      margin-top: 10px;
+      font-size: 0.92rem;
+      opacity: 0.65;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>ไปเดทด้วยกันไหม 💘</h1>
+    <p>ตอบให้หน่อยน้าาาา</p>
+
+    <div class="btns" id="arena">
+      <button id="yesBtn">Yes ✅</button>
+      <button id="noBtn">No ❌</button>
+    </div>
+
+    <div class="result" id="result"></div>
+    <div class="hint">*ถ้ากด No ได้ ถือว่าเก่งมาก 😆</div>
+  </div>
+
+  <script>
+    const arena = document.getElementById("arena");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const result = document.getElementById("result");
+
+    function moveNoButton() {
+      const rect = arena.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const padding = 8;
+      const maxX = rect.width - btnRect.width - padding;
+      const maxY = rect.height - btnRect.height - padding;
+
+      // สุ่มตำแหน่งใหม่ภายในกรอบปุ่ม
+      const x = Math.max(padding, Math.random() * maxX);
+      const y = Math.max(padding, Math.random() * maxY);
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      noBtn.style.transform = `translate(0, 0)`;
+    }
+
+    // หนีตอนเอาเมาส์เข้าใกล้ หรือพยายามกด
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    }, { passive: false });
+
+    yesBtn.addEventListener("click", () => {
+      result.textContent = "เย้! งั้นนัดกันเลยยย 🥰🎉";
+      // เพิ่มความน่ารัก: ทำปุ่ม yes เด้งนิดๆ
+      yesBtn.style.transform = "translateY(-2px) scale(1.04)";
+      setTimeout(() => (yesBtn.style.transform = ""), 180);
+    });
+
+    // เผื่อ no หลุดโดนจริงๆ
+    noBtn.addEventListener("click", () => {
+      result.textContent = "เอ๊ะ! กด No ได้จริงดิ 😳 (ลองใหม่อีกที!)";
+      moveNoButton();
+    });
+
+    // เริ่มต้นสุ่มตำแหน่งนิดนึง
+    moveNoButton();
+  </script>
+</body>
+</html>
